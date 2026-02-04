@@ -12,9 +12,7 @@ export default function ServicesPage() {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    short_description: '',
     icon: '',
-    image_url: '',
     features: '',
     is_active: true,
     sort_order: 0,
@@ -78,9 +76,7 @@ export default function ServicesPage() {
     setFormData({
       title: service.title,
       description: service.description,
-      short_description: service.short_description || '',
       icon: service.icon || '',
-      image_url: service.image_url || '',
       features: (service.features || []).join('\n'),
       is_active: service.is_active,
       sort_order: service.sort_order,
@@ -93,9 +89,7 @@ export default function ServicesPage() {
     setFormData({
       title: '',
       description: '',
-      short_description: '',
       icon: '',
-      image_url: '',
       features: '',
       is_active: true,
       sort_order: 0,
@@ -146,19 +140,7 @@ export default function ServicesPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">Descrizione breve</label>
-                  <input
-                    type="text"
-                    value={formData.short_description}
-                    onChange={(e) => setFormData({ ...formData, short_description: e.target.value })}
-                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="Breve descrizione per le card (max 150 caratteri)"
-                    maxLength={150}
-                  />
-                  <p className="text-xs text-gray-400 mt-1">{formData.short_description.length}/150</p>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">Descrizione completa *</label>
+                  <label className="block text-sm font-medium mb-1">Descrizione *</label>
                   <textarea
                     value={formData.description}
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
@@ -187,26 +169,6 @@ export default function ServicesPage() {
                       className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     />
                   </div>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">URL Immagine</label>
-                  <input
-                    type="url"
-                    value={formData.image_url}
-                    onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="https://esempio.com/immagine.jpg"
-                  />
-                  {formData.image_url && (
-                    <div className="mt-2 relative h-32 bg-gray-100 rounded-lg overflow-hidden">
-                      <img 
-                        src={formData.image_url} 
-                        alt="Preview" 
-                        className="w-full h-full object-cover"
-                        onError={(e) => { (e.target as HTMLImageElement).src = ''; }}
-                      />
-                    </div>
-                  )}
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1">Features (una per riga)</label>
@@ -277,21 +239,13 @@ export default function ServicesPage() {
                   <tr key={service.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        {service.image_url ? (
-                          <img 
-                            src={service.image_url} 
-                            alt={service.title} 
-                            className="w-12 h-12 rounded-lg object-cover"
-                          />
-                        ) : (
-                          <span className="text-2xl w-12 h-12 flex items-center justify-center bg-gray-100 rounded-lg">
-                            {service.icon || '🛠️'}
-                          </span>
-                        )}
+                        <span className="text-2xl w-12 h-12 flex items-center justify-center bg-gray-100 rounded-lg">
+                          {service.icon || '🛠️'}
+                        </span>
                         <div>
                           <p className="font-medium">{service.title}</p>
                           <p className="text-sm text-gray-500 line-clamp-1">
-                            {service.short_description || service.description}
+                            {service.description}
                           </p>
                         </div>
                       </div>

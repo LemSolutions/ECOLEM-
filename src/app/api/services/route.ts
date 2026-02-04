@@ -38,8 +38,8 @@ export async function POST(request: NextRequest) {
     // Use admin client for write operations
     const supabase = getSupabaseAdmin();
     
-    const { data, error } = await supabase
-      .from('services')
+    const { data, error } = await (supabase
+      .from('services') as any)
       .insert([{
         title: body.title,
         description: body.description,
@@ -82,16 +82,18 @@ export async function PUT(request: NextRequest) {
     // Use admin client for write operations
     const supabase = getSupabaseAdmin();
     
-    const { data, error } = await supabase
-      .from('services')
-      .update({
-        title: updateData.title,
-        description: updateData.description,
-        icon: updateData.icon,
-        features: updateData.features,
-        is_active: updateData.is_active,
-        sort_order: updateData.sort_order,
-      })
+    const updatePayload = {
+      title: updateData.title,
+      description: updateData.description,
+      icon: updateData.icon,
+      features: updateData.features,
+      is_active: updateData.is_active,
+      sort_order: updateData.sort_order,
+    };
+    
+    const { data, error } = await (supabase
+      .from('services') as any)
+      .update(updatePayload)
       .eq('id', id)
       .select()
       .single();

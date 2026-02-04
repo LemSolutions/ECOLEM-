@@ -3,7 +3,7 @@
  */
 
 import { getSupabaseClient } from './supabase-client';
-import type { Service, Product, BlogPost, Testimonial, ContactSubmissionInsert } from '@/types/database';
+import type { Service, Product, BlogPost, ContactSubmissionInsert } from '@/types/database';
 
 // ═══════════════════════════════════════════════════════════════════════════
 // SERVICES
@@ -101,30 +101,12 @@ export async function getAllBlogPosts(): Promise<BlogPost[]> {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// TESTIMONIALS
-// ═══════════════════════════════════════════════════════════════════════════
-
-export async function getTestimonials(): Promise<Testimonial[]> {
-  const supabase = getSupabaseClient();
-  const { data, error } = await supabase
-    .from('testimonials')
-    .select('*')
-    .eq('is_active', true)
-    .order('sort_order', { ascending: true });
-  if (error) {
-    console.error('Error fetching testimonials:', error);
-    return [];
-  }
-  return data || [];
-}
-
-// ═══════════════════════════════════════════════════════════════════════════
 // CONTACT FORM
 // ═══════════════════════════════════════════════════════════════════════════
 
 export async function submitContactForm(formData: ContactSubmissionInsert): Promise<{ success: boolean; error?: string }> {
   const supabase = getSupabaseClient();
-  const { error } = await supabase.from('contact_submissions').insert([formData]);
+  const { error } = await (supabase.from('contact_submissions') as any).insert([formData]);
   if (error) {
     console.error('Error submitting contact form:', error);
     return { success: false, error: error.message };

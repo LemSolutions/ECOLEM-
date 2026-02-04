@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { isValidSession } from '@/lib/auth';
 import { getSupabaseClient, getSupabaseAdmin } from '@/lib/supabase-client';
+import type { BlogPostInsert } from '@/types/database';
 
 // GET - Fetch all blog posts (public)
 export async function GET() {
@@ -42,20 +43,22 @@ export async function POST(request: NextRequest) {
       .replace(/[^a-z0-9]+/g, '-')
       .replace(/(^-|-$)/g, '');
     
+    const insertData = {
+      title: body.title,
+      slug: slug,
+      excerpt: body.excerpt || null,
+      content: body.content,
+      author: body.author || 'LEM Team',
+      image_url: body.image_url || null,
+      category: body.category || null,
+      tags: body.tags || [],
+      is_published: body.is_published ?? false,
+      published_at: body.is_published ? new Date().toISOString() : null,
+    } as BlogPostInsert;
+    
     const { data, error } = await supabase
       .from('blog_posts')
-      .insert([{
-        title: body.title,
-        slug: slug,
-        excerpt: body.excerpt || null,
-        content: body.content,
-        author: body.author || 'LEM Team',
-        image_url: body.image_url || null,
-        category: body.category || null,
-        tags: body.tags || [],
-        is_published: body.is_published ?? false,
-        published_at: body.is_published ? new Date().toISOString() : null,
-      }])
+      .insert([insertData] as any)
       .select()
       .single();
     
@@ -89,21 +92,23 @@ export async function PUT(request: NextRequest) {
     
     const supabase = getSupabaseAdmin();
     
-    const { data, error } = await supabase
-      .from('blog_posts')
-      .update({
-        title: updateData.title,
-        excerpt: updateData.excerpt,
-        content: updateData.content,
-        author: updateData.author,
-        image_url: updateData.image_url,
-        category: updateData.category,
-        tags: updateData.tags,
-        is_published: updateData.is_published,
-        published_at: updateData.is_published && !updateData.published_at 
-          ? new Date().toISOString() 
-          : updateData.published_at,
-      })
+    const updatePayload = {
+      title: updateData.title,
+      excerpt: updateData.excerpt,
+      content: updateData.content,
+      author: updateData.author,
+      image_url: updateData.image_url,
+      category: updateData.category,
+      tags: updateData.tags,
+      is_published: updateData.is_published,
+      published_at: updateData.is_published && !updateData.published_at 
+        ? new Date().toISOString() 
+        : updateData.published_at,
+    };
+    
+    const { data, error } = await (supabase
+      .from('blog_posts') as any)
+      .update(updatePayload)
       .eq('id', id)
       .select()
       .single();

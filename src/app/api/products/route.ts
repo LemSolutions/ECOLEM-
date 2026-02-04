@@ -36,8 +36,8 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const supabase = getSupabaseAdmin();
     
-    const { data, error } = await supabase
-      .from('products')
+    const { data, error } = await (supabase
+      .from('products') as any)
       .insert([{
         name: body.name,
         description: body.description,
@@ -84,21 +84,23 @@ export async function PUT(request: NextRequest) {
     
     const supabase = getSupabaseAdmin();
     
-    const { data, error } = await supabase
-      .from('products')
-      .update({
-        name: updateData.name,
-        description: updateData.description,
-        short_description: updateData.short_description,
-        price: updateData.price,
-        price_type: updateData.price_type,
-        category: updateData.category,
-        image_url: updateData.image_url,
-        features: updateData.features,
-        is_featured: updateData.is_featured,
-        is_active: updateData.is_active,
-        sort_order: updateData.sort_order,
-      })
+    const updatePayload = {
+      name: updateData.name,
+      description: updateData.description,
+      short_description: updateData.short_description,
+      price: updateData.price,
+      price_type: updateData.price_type,
+      category: updateData.category,
+      image_url: updateData.image_url,
+      features: updateData.features,
+      is_featured: updateData.is_featured,
+      is_active: updateData.is_active,
+      sort_order: updateData.sort_order,
+    };
+    
+    const { data, error } = await (supabase
+      .from('products') as any)
+      .update(updatePayload)
       .eq('id', id)
       .select()
       .single();
