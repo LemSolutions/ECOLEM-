@@ -5,6 +5,15 @@ import Image from 'next/image';
 import Section, { SectionHeader } from '@/components/ui/Section';
 import type { AboutSection as AboutSectionType } from '@/types/database';
 
+// Funzione helper per validare URL immagini
+const isValidImageUrl = (url: string | null | undefined): boolean => {
+  if (!url || typeof url !== 'string' || url.trim() === '') return false;
+  const trimmedUrl = url.trim();
+  return trimmedUrl.startsWith('http://') || 
+         trimmedUrl.startsWith('https://') || 
+         trimmedUrl.startsWith('/');
+};
+
 export default function AboutSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -69,6 +78,9 @@ export default function AboutSection() {
             const hasImage = section.image_url;
             const imagePosition = section.image_position || 'left';
             
+            // Se ci sono più sezioni, aggiungi sfondo sfuocato
+            const hasMultipleSections = sections.length > 1;
+            
             // Layout basato sulla posizione dell'immagine
             const getLayoutClasses = () => {
               switch (imagePosition) {
@@ -85,17 +97,27 @@ export default function AboutSection() {
 
             const getImageClasses = () => {
               const base = 'relative w-full rounded-lg overflow-hidden bg-gray-100';
+              let spacing = '';
+              if (hasMultipleSections) {
+                spacing = imagePosition === 'right' ? 'md:mr-4' : imagePosition === 'left' ? 'md:ml-0' : '';
+              }
               switch (imagePosition) {
                 case 'top':
                 case 'bottom':
                   return `${base} h-64 md:h-80 mb-6`;
+                case 'right':
+                  return `${base} h-64 md:h-full md:w-1/2 mb-6 md:mb-0 ${spacing}`;
                 default:
-                  return `${base} h-64 md:h-full md:w-1/2 mb-6 md:mb-0`;
+                  return `${base} h-64 md:h-full md:w-1/2 mb-6 md:mb-0 ${spacing}`;
               }
             };
 
             const getContentClasses = () => {
               const base = 'flex-1';
+              if (hasMultipleSections) {
+                // Quando c'è lo sfondo sfuocato, i padding sono già nel container
+                return base;
+              }
               switch (imagePosition) {
                 case 'right':
                   return `${base} md:mr-6`;
@@ -105,21 +127,32 @@ export default function AboutSection() {
                   return base;
               }
             };
+            const containerClasses = hasMultipleSections
+              ? `flex ${getLayoutClasses()} ${isVisible ? 'animate-fade-up' : 'opacity-0'} bg-white/80 backdrop-blur-md rounded-2xl p-6 md:p-8 lg:p-10 shadow-lg border border-white/20`
+              : `flex ${getLayoutClasses()} ${isVisible ? 'animate-fade-up' : 'opacity-0'}`;
 
             return (
               <div
                 key={section.id}
-                className={`flex ${getLayoutClasses()} ${isVisible ? 'animate-fade-up' : 'opacity-0'}`}
+                className={containerClasses}
                 style={{ animationDelay: `${index * 200}ms` }}
               >
-                {hasImage && (
+                {hasImage && section.image_url && isValidImageUrl(section.image_url) && (
                   <div className={getImageClasses()}>
                     <Image
-                      src={section.image_url!}
+                      src={section.image_url}
                       alt={section.title}
                       fill
                       className="object-cover"
                       sizes="(max-width: 768px) 100vw, 50vw"
+                      onError={(e) => {
+                        console.error('Errore caricamento immagine:', section.image_url);
+                        // Nascondi l'immagine se c'è un errore
+                        const target = e.target as HTMLImageElement;
+                        if (target.parentElement) {
+                          target.parentElement.style.display = 'none';
+                        }
+                      }}
                     />
                   </div>
                 )}

@@ -23,6 +23,14 @@ const nextConfig = {
         protocol: 'https',
         hostname: '**.unsplash.com',
       },
+      {
+        protocol: 'https',
+        hostname: '**.pixabay.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'pixabay.com',
+      },
     ],
   },
 };

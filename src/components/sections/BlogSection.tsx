@@ -1,10 +1,20 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import Section, { SectionHeader } from '@/components/ui/Section';
 import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
 import type { BlogPost } from '@/types/database';
+
+// Funzione helper per validare URL immagini
+const isValidImageUrl = (url: string | null | undefined): boolean => {
+  if (!url || typeof url !== 'string' || url.trim() === '') return false;
+  const trimmedUrl = url.trim();
+  return trimmedUrl.startsWith('http://') || 
+         trimmedUrl.startsWith('https://') || 
+         trimmedUrl.startsWith('/');
+};
 
 export default function BlogSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -98,16 +108,23 @@ export default function BlogSection() {
             >
               <Card variant="bordered" padding="none" className="h-full flex flex-col overflow-hidden">
                 {/* Image */}
-                <div className="relative aspect-[16/10] overflow-hidden">
-                  {post.image_url ? (
-                    <img 
-                      src={post.image_url} 
+                <div className="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-primary-light)]">
+                  {post.image_url && isValidImageUrl(post.image_url) ? (
+                    <Image
+                      src={post.image_url}
                       alt={post.title}
-                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      onError={(e) => {
+                        console.error('Errore caricamento immagine blog:', post.image_url);
+                        const target = e.target as HTMLImageElement;
+                        if (target.parentElement) {
+                          target.parentElement.style.display = 'none';
+                        }
+                      }}
                     />
-                  ) : (
-                    <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-primary-light)]" />
-                  )}
+                  ) : null}
                   {post.category && (
                     <div className="absolute top-4 left-4 z-10">
                       <span className="inline-flex items-center px-3 py-1 bg-[var(--color-accent)] text-[var(--color-primary)] text-xs font-semibold uppercase tracking-wide rounded-full">

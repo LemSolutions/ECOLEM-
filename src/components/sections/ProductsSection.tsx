@@ -7,6 +7,15 @@ import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
 import type { Product } from '@/types/database';
 
+// Funzione helper per validare URL immagini
+const isValidImageUrl = (url: string | null | undefined): boolean => {
+  if (!url || typeof url !== 'string' || url.trim() === '') return false;
+  const trimmedUrl = url.trim();
+  return trimmedUrl.startsWith('http://') || 
+         trimmedUrl.startsWith('https://') || 
+         trimmedUrl.startsWith('/');
+};
+
 export default function ProductsSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -103,22 +112,29 @@ export default function ProductsSection() {
                 hover={false} 
                 className={`h-full flex flex-col ${product.is_featured ? 'border-2 border-[var(--color-accent)] ring-4 ring-[var(--color-accent)]/20 bg-white' : 'bg-white border-gray-200'}`}
               >
-                {product.image_url && (
-                  <div className="relative w-full h-48 mb-6 rounded-lg overflow-hidden bg-gray-100">
+                {product.image_url && isValidImageUrl(product.image_url) && (
+                  <div className="relative w-full h-48 mb-6 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
                     <Image
                       src={product.image_url}
                       alt={product.name}
                       fill
                       className="object-cover"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      onError={(e) => {
+                        console.error('Errore caricamento immagine:', product.image_url);
+                        const target = e.target as HTMLImageElement;
+                        if (target.parentElement) {
+                          target.parentElement.style.display = 'none';
+                        }
+                      }}
                     />
                   </div>
                 )}
-                <div className="text-center mb-8">
+                <div className="text-center mb-8 flex-shrink-0">
                   <h3 className="font-heading font-semibold text-2xl mb-2 text-[var(--color-primary)]">
                     {product.name}
                   </h3>
-                  <p className="text-sm mb-6 text-[var(--color-dark-gray)]">
+                  <p className="text-sm mb-6 text-[var(--color-dark-gray)] min-h-[6rem]">
                     {product.description}
                   </p>
                   <div className="mb-2">
@@ -149,6 +165,7 @@ export default function ProductsSection() {
                   variant={product.is_featured ? 'primary' : 'secondary'} 
                   fullWidth 
                   href="#support"
+                  className="mt-auto flex-shrink-0"
                 >
                   {product.price_type === 'on_request' ? 'Contattaci' : 'Richiedi Preventivo'}
                 </Button>

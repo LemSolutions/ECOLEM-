@@ -171,6 +171,27 @@ export default function AboutPage() {
                     className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                     placeholder="https://example.com/image.jpg"
                   />
+                  {formData.image_url && formData.image_url.trim() !== '' && (
+                    <div className="mt-3">
+                      <p className="text-xs text-gray-500 mb-2">Anteprima:</p>
+                      <div className="relative w-full h-48 rounded-lg overflow-hidden bg-gray-100 border">
+                        <img
+                          src={formData.image_url}
+                          alt="Anteprima"
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.parentElement!.innerHTML = `
+                              <div class="flex items-center justify-center h-full text-red-500 text-sm">
+                                ❌ Errore: URL immagine non valido o non accessibile
+                              </div>
+                            `;
+                          }}
+                        />
+                      </div>
+                      <p className="text-xs text-gray-400 mt-2 break-all">{formData.image_url}</p>
+                    </div>
+                  )}
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
@@ -254,11 +275,31 @@ export default function AboutPage() {
                 {sections.map((section) => (
                   <tr key={section.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4">
-                      <div>
-                        <p className="font-medium">{section.title}</p>
-                        <p className="text-sm text-gray-500 line-clamp-1">
-                          {section.subtitle || section.content.substring(0, 100)}...
-                        </p>
+                      <div className="flex items-center gap-4">
+                        {section.image_url && (
+                          <div className="relative w-16 h-16 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
+                            <img
+                              src={section.image_url}
+                              alt={section.title}
+                              className="w-full h-full object-cover"
+                              onError={(e) => {
+                                const target = e.target as HTMLImageElement;
+                                target.style.display = 'none';
+                              }}
+                            />
+                          </div>
+                        )}
+                        <div>
+                          <p className="font-medium">{section.title}</p>
+                          <p className="text-sm text-gray-500 line-clamp-1">
+                            {section.subtitle || section.content.substring(0, 100)}...
+                          </p>
+                          {section.image_url && (
+                            <p className="text-xs text-gray-400 mt-1 truncate max-w-xs">
+                              {section.image_url}
+                            </p>
+                          )}
+                        </div>
                       </div>
                     </td>
                     <td className="px-6 py-4">
