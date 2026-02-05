@@ -31,6 +31,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
 
+        {/* Iubenda Cookie Banner (Popup) */}
+        <Script id="iubenda-cookie-banner" strategy="beforeInteractive">
+          {`var _iub = _iub || {}; _iub.csConfiguration = {"askConsentAtCookiePolicyUpdate":true,"enableFadp":true,"enableLgpd":true,"enableUspr":true,"fadpApplies":true,"lgpdApplies":true,"usprApplies":true,"countryDetection":true,"lang":"it","siteId":43054480,"cookiePolicyId":43054480,"banner":{"acceptButtonDisplay":true,"closeButtonDisplay":false,"customizeButtonDisplay":true,"explicitWithdrawal":true,"listPurposes":true,"position":"bottom","rejectButtonDisplay":true,"showTitle":false}}};`}
+        </Script>
+        <Script
+          id="iubenda-cookie-banner-script"
+          strategy="beforeInteractive"
+          src="https://cdn.iubenda.com/cs/iubenda_cs.js"
+          async
+        />
+        
         {/* Iubenda Consent Database (frontend quick integration) */}
         <Script id="iubenda-consent-db-init" strategy="beforeInteractive">
           {`var _iub = _iub || {}; _iub.cons_instructions = _iub.cons_instructions || []; _iub.cons_instructions.push(["init", {api_key: "BFoyYds0TEv5lTMXjMeNzbW4bKRPZQVP"}]);`}
