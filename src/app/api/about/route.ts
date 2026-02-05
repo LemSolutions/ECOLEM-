@@ -49,9 +49,9 @@ export async function POST(request: NextRequest) {
       sort_order: body.sort_order || 0,
     };
     
-    const { data, error } = await supabase
-      .from('about_sections')
-      .insert([payload as AboutSectionInsert])
+    const { data, error } = await (supabase
+      .from('about_sections') as any)
+      .insert([payload])
       .select()
       .single();
     
@@ -96,9 +96,9 @@ export async function PUT(request: NextRequest) {
       sort_order: updateData.sort_order,
     };
     
-    const { data, error } = await supabase
-      .from('about_sections')
-      .update(updatePayload as AboutSectionUpdate)
+    const { data, error } = await (supabase
+      .from('about_sections') as any)
+      .update(updatePayload)
       .eq('id', id)
       .select()
       .single();
