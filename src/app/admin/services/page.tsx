@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import ImageUpload from '@/components/ui/ImageUpload';
 import type { Service } from '@/types/database';
 
 export default function ServicesPage() {
@@ -152,16 +153,11 @@ export default function ServicesPage() {
                     required
                   />
                 </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">URL Immagine</label>
-                  <input
-                    type="text"
-                    value={formData.image_url}
-                    onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="https://example.com/image.jpg"
-                  />
-                </div>
+                <ImageUpload
+                  value={formData.image_url}
+                  onChange={(url) => setFormData({ ...formData, image_url: url })}
+                  label="Immagine Servizio"
+                />
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium mb-1">Icona (emoji)</label>

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import ImageUpload from '@/components/ui/ImageUpload';
 import type { BlogPost } from '@/types/database';
 
 export default function BlogPage() {
@@ -197,37 +198,11 @@ export default function BlogPage() {
                     />
                   </div>
                 </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">URL Immagine</label>
-                  <input
-                    type="text"
-                    value={formData.image_url}
-                    onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
-                    placeholder="https://example.com/image.jpg"
-                  />
-                  {formData.image_url && formData.image_url.trim() !== '' && (
-                    <div className="mt-3">
-                      <p className="text-xs text-gray-500 mb-2">Anteprima:</p>
-                      <div className="relative w-full h-48 rounded-lg overflow-hidden bg-gray-100 border">
-                        <img
-                          src={formData.image_url}
-                          alt="Anteprima"
-                          className="w-full h-full object-cover"
-                          onError={(e) => {
-                            const target = e.target as HTMLImageElement;
-                            target.parentElement!.innerHTML = `
-                              <div class="flex items-center justify-center h-full text-red-500 text-sm">
-                                ❌ Errore: URL immagine non valido o non accessibile
-                              </div>
-                            `;
-                          }}
-                        />
-                      </div>
-                      <p className="text-xs text-gray-400 mt-2 break-all">{formData.image_url}</p>
-                    </div>
-                  )}
-                </div>
+                <ImageUpload
+                  value={formData.image_url}
+                  onChange={(url) => setFormData({ ...formData, image_url: url })}
+                  label="Immagine Articolo"
+                />
                 <div>
                   <label className="block text-sm font-medium mb-1">Tags (separati da virgola)</label>
                   <input

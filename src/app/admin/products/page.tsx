@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import ImageUpload from '@/components/ui/ImageUpload';
 import type { Product } from '@/types/database';
 
 export default function ProductsPage() {
@@ -215,15 +216,11 @@ export default function ProductsPage() {
                     placeholder="es. Hardware, Software, Consulenza"
                   />
                 </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">URL Immagine</label>
-                  <input
-                    type="text"
-                    value={formData.image_url}
-                    onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-                    className="w-full px-3 py-2 border rounded-lg"
-                  />
-                </div>
+                <ImageUpload
+                  value={formData.image_url}
+                  onChange={(url) => setFormData({ ...formData, image_url: url })}
+                  label="Immagine Prodotto"
+                />
                 <div>
                   <label className="block text-sm font-medium mb-1">Features (una per riga)</label>
                   <textarea
