@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import Section, { SectionHeader } from '@/components/ui/Section';
 import Card, { CardTitle, CardDescription } from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
@@ -76,9 +77,21 @@ export default function ServicesSection() {
               className={`group ${isVisible ? 'animate-fade-up' : 'opacity-0'}`} 
               style={{ animationDelay: `${index * 100}ms` }}
             >
-              <div className="w-16 h-16 mb-6 rounded-xl bg-[var(--color-accent)]/10 flex items-center justify-center text-[var(--color-accent)] group-hover:bg-[var(--color-accent)] group-hover:text-[var(--color-primary)] transition-all duration-300 text-3xl">
-                {service.icon || '🛠️'}
-              </div>
+              {service.image_url ? (
+                <div className="relative w-full h-48 mb-6 rounded-lg overflow-hidden bg-gray-100">
+                  <Image
+                    src={service.image_url}
+                    alt={service.title}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                </div>
+              ) : (
+                <div className="w-16 h-16 mb-6 rounded-xl bg-[var(--color-accent)]/10 flex items-center justify-center text-[var(--color-accent)] group-hover:bg-[var(--color-accent)] group-hover:text-[var(--color-primary)] transition-all duration-300 text-3xl">
+                  {service.icon || '🛠️'}
+                </div>
+              )}
               <CardTitle className="mb-3">{service.title}</CardTitle>
               <CardDescription className="mb-6">{service.description}</CardDescription>
               {service.features && service.features.length > 0 && (

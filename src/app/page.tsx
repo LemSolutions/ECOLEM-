@@ -1,5 +1,5 @@
 import { Navbar, Footer } from '@/components/layout';
-import { HeroSection, ServicesSection, ProductsSection, BlogSection, SupportSection } from '@/components/sections';
+import { HeroSection, StatsSection, ServicesSection, ProductsSection, BlogSection, AboutSection, SupportSection } from '@/components/sections';
 
 export default function HomePage() {
   return (
@@ -7,8 +7,10 @@ export default function HomePage() {
       <Navbar />
       <main>
         <HeroSection />
+        <StatsSection />
         <ServicesSection />
         <ProductsSection />
+        <AboutSection />
         <BlogSection />
         <SupportSection />
       </main>

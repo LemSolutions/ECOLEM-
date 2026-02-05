@@ -86,25 +86,29 @@ export default function HeroSection({
         </div>
 
         {/* Headline */}
-        <h1 
-          className="font-heading font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white leading-tight mb-6 animate-fade-up delay-100" 
-          style={{ textShadow: '0 2px 20px rgba(0,0,0,0.3)' }}
-        >
-          {headline.split(' ').map((word, index) => (
-            <span key={index}>
-              {index === headline.split(' ').length - 1 ? (
-                <span className="text-[var(--color-accent)]">{word}</span>
-              ) : (
-                `${word} `
-              )}
-            </span>
-          ))}
-        </h1>
+        <div className="inline-block px-6 py-4 md:px-8 md:py-6 mb-6 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 animate-fade-up delay-100">
+          <h1 
+            className="font-heading font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white leading-tight" 
+            style={{ textShadow: '0 2px 20px rgba(0,0,0,0.3)' }}
+          >
+            {headline.split(' ').map((word, index) => (
+              <span key={index}>
+                {index === headline.split(' ').length - 1 ? (
+                  <span className="text-[var(--color-accent)]">{word}</span>
+                ) : (
+                  `${word} `
+                )}
+              </span>
+            ))}
+          </h1>
+        </div>
 
         {/* Subheadline */}
-        <p className="max-w-2xl mx-auto text-lg sm:text-xl lg:text-2xl text-white/80 leading-relaxed mb-10 animate-fade-up delay-200">
-          {subheadline}
-        </p>
+        <div className="inline-block px-6 py-4 md:px-8 md:py-6 mb-10 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 animate-fade-up delay-200">
+          <p className="max-w-2xl mx-auto text-lg sm:text-xl lg:text-2xl text-white/90 leading-relaxed">
+            {subheadline}
+          </p>
+        </div>
 
         {/* CTAs */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 animate-fade-up delay-300">
@@ -129,22 +133,6 @@ export default function HeroSection({
           >
             {ctaSecondaryText}
           </Button>
-        </div>
-
-        {/* Stats */}
-        <div className="flex flex-wrap items-center justify-center gap-8 lg:gap-12 mt-16 animate-fade-up delay-500">
-          {[
-            { value: '2400', label: 'DPI Risoluzione Max' }, 
-            { value: '10+', label: 'Anni di R&D' }, 
-            { value: '100%', label: 'Made in Italy' }
-          ].map((stat, index) => (
-            <div key={index} className="text-center">
-              <div className="text-3xl lg:text-4xl font-heading font-bold text-[var(--color-accent)]">
-                {stat.value}
-              </div>
-              <div className="text-sm text-white/60 mt-1">{stat.label}</div>
-            </div>
-          ))}
         </div>
       </div>
 

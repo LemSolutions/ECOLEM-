@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import Section, { SectionHeader } from '@/components/ui/Section';
 import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
@@ -102,6 +103,17 @@ export default function ProductsSection() {
                 hover={false} 
                 className={`h-full flex flex-col ${product.is_featured ? 'border-2 border-[var(--color-accent)] ring-4 ring-[var(--color-accent)]/20 bg-white' : 'bg-white border-gray-200'}`}
               >
+                {product.image_url && (
+                  <div className="relative w-full h-48 mb-6 rounded-lg overflow-hidden bg-gray-100">
+                    <Image
+                      src={product.image_url}
+                      alt={product.name}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                  </div>
+                )}
                 <div className="text-center mb-8">
                   <h3 className="font-heading font-semibold text-2xl mb-2 text-[var(--color-primary)]">
                     {product.name}

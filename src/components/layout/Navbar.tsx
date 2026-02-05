@@ -14,6 +14,7 @@ const navItems: NavItem[] = [
   { label: 'Home', href: '#hero' },
   { label: 'Sistema', href: '#servizi' },
   { label: 'Prodotti', href: '#prodotti' },
+  { label: 'Chi Siamo', href: '#chi-siamo' },
   { label: 'Blog', href: '#blog' },
   { label: 'Contatti', href: '#support' },
 ];
@@ -70,9 +71,9 @@ export default function Navbar() {
               <Image 
                 src="/images/CERAMIC PRINTING.png" 
                 alt="LEM Solutions Logo" 
-                width={280} 
-                height={70} 
-                className="h-14 md:h-16 w-auto transition-transform group-hover:scale-105"
+                width={350} 
+                height={88} 
+                className="h-18 md:h-24 lg:h-28 w-auto transition-transform group-hover:scale-105"
                 priority
               />
             </Link>

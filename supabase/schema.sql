@@ -18,6 +18,7 @@ DROP TABLE IF EXISTS contact_submissions CASCADE;
 DROP TABLE IF EXISTS blog_posts CASCADE;
 DROP TABLE IF EXISTS products CASCADE;
 DROP TABLE IF EXISTS services CASCADE;
+DROP TABLE IF EXISTS about_sections CASCADE;
 
 -- ═══════════════════════════════════════════════════════════════════════════
 -- TABELLA: SERVICES (Servizi)
@@ -28,6 +29,7 @@ CREATE TABLE services (
   title VARCHAR(255) NOT NULL,
   description TEXT NOT NULL,
   icon VARCHAR(50) DEFAULT '🛠️',
+  image_url TEXT,
   features TEXT[] DEFAULT '{}',
   is_active BOOLEAN DEFAULT true,
   sort_order INTEGER DEFAULT 0,
@@ -132,6 +134,31 @@ CREATE INDEX idx_contact_created ON contact_submissions(created_at DESC);
 CREATE INDEX idx_contact_read ON contact_submissions(is_read);
 
 -- ═══════════════════════════════════════════════════════════════════════════
+-- TABELLA: ABOUT_SECTIONS (Sezioni About Us)
+-- ═══════════════════════════════════════════════════════════════════════════
+
+CREATE TABLE about_sections (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  subtitle TEXT,
+  content TEXT NOT NULL,
+  image_url TEXT,
+  image_position VARCHAR(20) DEFAULT 'left' CHECK (image_position IN ('left', 'right', 'top', 'bottom')),
+  is_active BOOLEAN DEFAULT true,
+  sort_order INTEGER DEFAULT 0,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE INDEX idx_about_sections_sort ON about_sections(sort_order);
+CREATE INDEX idx_about_sections_active ON about_sections(is_active);
+
+CREATE TRIGGER update_about_sections_updated_at
+  BEFORE UPDATE ON about_sections
+  FOR EACH ROW
+  EXECUTE FUNCTION update_updated_at_column();
+
+-- ═══════════════════════════════════════════════════════════════════════════
 -- ROW LEVEL SECURITY (RLS)
 -- ═══════════════════════════════════════════════════════════════════════════
 
@@ -140,6 +167,7 @@ ALTER TABLE services ENABLE ROW LEVEL SECURITY;
 ALTER TABLE products ENABLE ROW LEVEL SECURITY;
 ALTER TABLE blog_posts ENABLE ROW LEVEL SECURITY;
 ALTER TABLE contact_submissions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE about_sections ENABLE ROW LEVEL SECURITY;
 
 -- Policies per lettura pubblica (anon può leggere solo contenuti attivi/pubblicati)
 CREATE POLICY "Services are viewable by everyone" ON services
@@ -166,6 +194,12 @@ CREATE POLICY "Service role can do everything on blog_posts" ON blog_posts
   FOR ALL USING (auth.role() = 'service_role');
 
 CREATE POLICY "Service role can do everything on contact_submissions" ON contact_submissions
+  FOR ALL USING (auth.role() = 'service_role');
+
+CREATE POLICY "About sections are viewable by everyone" ON about_sections
+  FOR SELECT USING (true);
+
+CREATE POLICY "Service role can do everything on about_sections" ON about_sections
   FOR ALL USING (auth.role() = 'service_role');
 
 -- ═══════════════════════════════════════════════════════════════════════════

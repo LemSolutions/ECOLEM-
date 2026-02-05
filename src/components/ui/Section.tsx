@@ -56,7 +56,7 @@ const Section = forwardRef<HTMLElement, SectionProps>(
       dark: 'bg-[var(--color-primary)] text-white',
       cream: 'bg-[var(--color-cream)]',
       accent: 'bg-[var(--color-accent)] text-white',
-      gradient: 'bg-gradient-to-br from-[var(--color-primary)] via-[var(--color-primary-light)] to-[var(--color-primary)] text-white',
+      gradient: 'bg-gradient-to-br from-[var(--color-accent)] via-white to-[var(--color-secondary)] text-[var(--color-primary)]',
     };
 
     const sizeClasses = {

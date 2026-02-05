@@ -8,11 +8,12 @@ type Stats = {
   services: number;
   products: number;
   blog: number;
+  about: number;
 };
 
 export default function AdminDashboard() {
   const router = useRouter();
-  const [stats, setStats] = useState<Stats>({ services: 0, products: 0, blog: 0 });
+  const [stats, setStats] = useState<Stats>({ services: 0, products: 0, blog: 0, about: 0 });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -21,15 +22,17 @@ export default function AdminDashboard() {
 
   const fetchStats = async () => {
     try {
-      const [services, products, blog] = await Promise.all([
+      const [services, products, blog, about] = await Promise.all([
         fetch('/api/services').then(r => r.json()),
         fetch('/api/products').then(r => r.json()),
         fetch('/api/blog').then(r => r.json()),
+        fetch('/api/about').then(r => r.json()),
       ]);
       setStats({
         services: services.length || 0,
         products: products.length || 0,
         blog: blog.length || 0,
+        about: about.length || 0,
       });
     } catch (error) {
       console.error('Error fetching stats:', error);
@@ -66,7 +69,7 @@ export default function AdminDashboard() {
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <StatsCard
             title="Servizi"
             count={stats.services}
@@ -88,6 +91,13 @@ export default function AdminDashboard() {
             color="purple"
             loading={loading}
           />
+          <StatsCard
+            title="About Us"
+            count={stats.about}
+            href="/admin/about"
+            color="amber"
+            loading={loading}
+          />
         </div>
 
         {/* Quick Actions */}
@@ -95,7 +105,7 @@ export default function AdminDashboard() {
           <h2 className="text-lg font-semibold text-gray-900 mb-4">
             Azioni Rapide
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <Link
               href="/admin/services"
               className="flex items-center gap-3 p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition"
@@ -116,6 +126,13 @@ export default function AdminDashboard() {
             >
               <span className="text-2xl">📝</span>
               <span className="font-medium text-gray-900">Gestisci Blog</span>
+            </Link>
+            <Link
+              href="/admin/about"
+              className="flex items-center gap-3 p-4 bg-amber-50 rounded-lg hover:bg-amber-100 transition"
+            >
+              <span className="text-2xl">ℹ️</span>
+              <span className="font-medium text-gray-900">Gestisci About Us</span>
             </Link>
           </div>
         </div>
@@ -143,13 +160,14 @@ function StatsCard({
   title: string;
   count: number;
   href: string;
-  color: 'blue' | 'emerald' | 'purple';
+  color: 'blue' | 'emerald' | 'purple' | 'amber';
   loading: boolean;
 }) {
   const colors = {
     blue: 'bg-blue-500',
     emerald: 'bg-emerald-500',
     purple: 'bg-purple-500',
+    amber: 'bg-amber-500',
   };
 
   return (

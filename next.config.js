@@ -7,6 +7,22 @@ const nextConfig = {
         protocol: 'https',
         hostname: '**.supabase.co',
       },
+      {
+        protocol: 'https',
+        hostname: '**.googleusercontent.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.googleapis.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.cloudinary.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.unsplash.com',
+      },
     ],
   },
 };

@@ -18,6 +18,7 @@ export interface Database {
           title: string;
           description: string;
           icon: string | null;
+          image_url: string | null;
           features: string[] | null;
           is_active: boolean;
           sort_order: number;
@@ -93,6 +94,26 @@ export interface Database {
         Insert: Omit<Database['public']['Tables']['contact_submissions']['Row'], 'id' | 'created_at' | 'is_read'>;
         Update: Partial<Database['public']['Tables']['contact_submissions']['Insert']>;
       };
+
+      // ═══════════════════════════════════════════════════════════════════
+      // ABOUT SECTIONS
+      // ═══════════════════════════════════════════════════════════════════
+      about_sections: {
+        Row: {
+          id: string;
+          title: string;
+          subtitle: string | null;
+          content: string;
+          image_url: string | null;
+          image_position: 'left' | 'right' | 'top' | 'bottom';
+          is_active: boolean;
+          sort_order: number;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Omit<Database['public']['Tables']['about_sections']['Row'], 'id' | 'created_at' | 'updated_at'>;
+        Update: Partial<Database['public']['Tables']['about_sections']['Insert']>;
+      };
     };
     
     Views: Record<string, never>;
@@ -122,3 +143,7 @@ export type BlogPostUpdate = Database['public']['Tables']['blog_posts']['Update'
 
 export type ContactSubmission = Database['public']['Tables']['contact_submissions']['Row'];
 export type ContactSubmissionInsert = Database['public']['Tables']['contact_submissions']['Insert'];
+
+export type AboutSection = Database['public']['Tables']['about_sections']['Row'];
+export type AboutSectionInsert = Database['public']['Tables']['about_sections']['Insert'];
+export type AboutSectionUpdate = Database['public']['Tables']['about_sections']['Update'];
