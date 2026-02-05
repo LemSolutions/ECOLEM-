@@ -63,7 +63,7 @@ export default function Navbar() {
 
   return (
     <>
-      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out ${isScrolled ? 'bg-white/95 backdrop-blur-md shadow-lg py-3' : 'bg-white/80 backdrop-blur-sm py-5'}`}>
+      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out ${isScrolled ? 'bg-white/95 backdrop-blur-md shadow-lg py-2' : 'bg-white/80 backdrop-blur-sm py-3'}`}>
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
             {/* Logo */}
@@ -73,7 +73,7 @@ export default function Navbar() {
                 alt="LEM Solutions Logo" 
                 width={350} 
                 height={88} 
-                className="h-18 md:h-24 lg:h-28 w-auto transition-transform group-hover:scale-105"
+                className="h-14 md:h-18 lg:h-20 w-auto transition-transform group-hover:scale-105"
                 priority
               />
             </Link>
