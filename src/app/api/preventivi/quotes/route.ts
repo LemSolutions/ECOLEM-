@@ -11,18 +11,21 @@ export async function GET(request: NextRequest) {
     const status = searchParams.get('status');
     
     const supabase = getSupabaseClient();
-    let query = supabase.from('quotes').select('*');
+    let data, error;
     
     if (id) {
-      query = query.eq('id', id).single();
+      const result = await supabase.from('quotes').select('*').eq('id', id).single();
+      data = result.data;
+      error = result.error;
     } else {
+      let query = supabase.from('quotes').select('*');
       if (status) {
         query = query.eq('status', status);
       }
-      query = query.order('created_at', { ascending: false });
+      const result = await query.order('created_at', { ascending: false });
+      data = result.data;
+      error = result.error;
     }
-    
-    const { data, error } = await query;
     
     if (error) {
       console.error('GET quotes error:', error);
@@ -62,11 +65,12 @@ export async function POST(request: NextRequest) {
         .like('quote_number', `PRV-${year}-%`)
         .order('quote_number', { ascending: false })
         .limit(1)
-        .single();
+        .maybeSingle();
       
       let quoteNumber = `PRV-${year}-0001`;
-      if (lastQuote?.quote_number) {
-        const lastNum = parseInt(lastQuote.quote_number.split('-')[2]) || 0;
+      if (lastQuote && (lastQuote as { quote_number: string }).quote_number) {
+        const quoteNum = (lastQuote as { quote_number: string }).quote_number;
+        const lastNum = parseInt(quoteNum.split('-')[2]) || 0;
         quoteNumber = `PRV-${year}-${String(lastNum + 1).padStart(4, '0')}`;
       }
       

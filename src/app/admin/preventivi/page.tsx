@@ -964,7 +964,7 @@ function CreaPreventivo({ editQuoteId, onEditComplete }: { editQuoteId?: string 
               return null;
             });
             
-            const newPackageItems = (await Promise.all(packageItemsPromises)).filter((item): item is QuoteItem => item !== null);
+            const newPackageItems = (await Promise.all(packageItemsPromises)).filter((item) => item !== null) as QuoteItem[];
             
             // Salva gli ID dei prodotti del pacchetto
             const newPackageProductIds = new Set(newPackageItems.map(item => item.product_id).filter(Boolean) as string[]);
