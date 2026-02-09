@@ -17,6 +17,10 @@ const nextConfig = {
       },
       {
         protocol: 'https',
+        hostname: '**.gstatic.com',
+      },
+      {
+        protocol: 'https',
         hostname: '**.cloudinary.com',
       },
       {
@@ -30,6 +34,14 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'pixabay.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.fotoceramiche.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'fotoceramiche.com',
       },
     ],
   },
