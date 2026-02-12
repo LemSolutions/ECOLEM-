@@ -31,9 +31,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
 
-        {/* Iubenda Cookie Banner (Popup) */}
+        {/* Iubenda Cookie Solution - Banner disabilitato, gestione manuale */}
         <Script id="iubenda-cookie-banner" strategy="beforeInteractive">
-          {`var _iub = _iub || {}; _iub.csConfiguration = {"askConsentAtCookiePolicyUpdate":true,"enableFadp":true,"enableLgpd":true,"enableUspr":true,"fadpApplies":true,"lgpdApplies":true,"usprApplies":true,"countryDetection":true,"lang":"it","siteId":43054480,"cookiePolicyId":43054480,"banner":{"acceptButtonDisplay":true,"closeButtonDisplay":false,"customizeButtonDisplay":true,"explicitWithdrawal":true,"listPurposes":true,"position":"bottom","rejectButtonDisplay":true,"showTitle":false}}};`}
+          {`var _iub = _iub || {}; _iub.csConfiguration = {"askConsentAtCookiePolicyUpdate":true,"enableFadp":true,"enableLgpd":true,"enableUspr":true,"fadpApplies":true,"lgpdApplies":true,"usprApplies":true,"countryDetection":true,"lang":"it","siteId":43054480,"cookiePolicyId":43054480,"banner":{"acceptButtonDisplay":false,"closeButtonDisplay":false,"customizeButtonDisplay":false,"explicitWithdrawal":true,"listPurposes":true,"position":"bottom","rejectButtonDisplay":false,"showTitle":false},"callback": {"onConsentGiven": function() { if (typeof window !== 'undefined' && window._iub && window._iub.cons_instructions) { window._iub.cons_instructions.push(['enableGoogleAnalytics', { 'G-5JF0637T6F': true }]); } }}};`}
         </Script>
         <Script
           id="iubenda-cookie-banner-script"
@@ -52,6 +52,54 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           src="https://cdn.iubenda.com/cons/iubenda_cons.js"
           async
         />
+
+        {/* Google Analytics - inizializzazione base, caricamento solo dopo consenso */}
+        <Script id="google-analytics-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            window.gtag = gtag;
+            
+            // Check consent and load GA if consent was already given
+            (function checkAndLoadGA() {
+              try {
+                const consentCookie = document.cookie.split(';').find(c => c.trim().startsWith('_iub_cs-43054480='));
+                if (consentCookie) {
+                  const cookieValue = consentCookie.split('=')[1];
+                  const consentData = JSON.parse(decodeURIComponent(cookieValue));
+                  if (consentData && consentData.purposes && Array.isArray(consentData.purposes) && consentData.purposes.length > 0) {
+                    // Load GA script
+                    const script = document.createElement('script');
+                    script.async = true;
+                    script.src = 'https://www.googletagmanager.com/gtag/js?id=G-5JF0637T6F';
+                    document.head.appendChild(script);
+                    script.onload = function() {
+                      if (window.gtag) {
+                        window.gtag('config', 'G-5JF0637T6F');
+                      }
+                    };
+                  }
+                }
+              } catch(e) {
+                console.warn('Error checking consent for GA:', e);
+              }
+            })();
+            
+            // Listen for consent events
+            window.addEventListener('_iubConsentGiven', function() {
+              const script = document.createElement('script');
+              script.async = true;
+              script.src = 'https://www.googletagmanager.com/gtag/js?id=G-5JF0637T6F';
+              document.head.appendChild(script);
+              script.onload = function() {
+                if (window.gtag) {
+                  window.gtag('config', 'G-5JF0637T6F');
+                }
+              };
+            });
+          `}
+        </Script>
       </head>
       <body className="font-body bg-[var(--color-off-white)] text-[var(--color-charcoal)] antialiased">
         <a href="#hero" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-[var(--color-accent)] focus:text-[var(--color-primary)] focus:rounded-lg focus:font-medium">Vai al contenuto principale</a>

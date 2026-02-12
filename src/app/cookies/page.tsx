@@ -1,32 +1,71 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import Script from 'next/script';
 
 export default function CookiePage() {
+  const [isScriptLoaded, setIsScriptLoaded] = useState(false);
+
   useEffect(() => {
-    // Load Iubenda script
-    const loader = () => {
-      const s = document.createElement('script');
-      s.src = 'https://cdn.iubenda.com/iubenda.js';
-      const tag = document.getElementsByTagName('script')[0];
-      tag.parentNode?.insertBefore(s, tag);
+    // Check if iubenda script is already loaded
+    const checkIubendaLoaded = () => {
+      if (typeof window === 'undefined') return false;
+      const win = window as any;
+      // Check for iubenda.js (for embed functionality)
+      if (win.iubenda || win._iub) {
+        setIsScriptLoaded(true);
+        return true;
+      }
+      // Check if script tag already exists
+      const existingScript = document.querySelector('script[src*="iubenda.js"]');
+      if (existingScript) {
+        // Script tag exists, wait a bit for it to load
+        setTimeout(() => {
+          if (win.iubenda || win._iub) {
+            setIsScriptLoaded(true);
+          }
+        }, 500);
+        return false;
+      }
+      return false;
     };
-    
-    if (document.readyState === 'complete') {
-      loader();
-    } else {
-      window.addEventListener('load', loader, false);
+
+    // If already loaded, set state immediately
+    if (checkIubendaLoaded()) {
+      return;
     }
-    
-    return () => {
-      window.removeEventListener('load', loader);
-    };
+
+    // Otherwise wait for script to load (with timeout)
+    let attempts = 0;
+    const maxAttempts = 50; // 5 seconds max wait
+    const checkInterval = setInterval(() => {
+      attempts++;
+      if (checkIubendaLoaded() || attempts >= maxAttempts) {
+        clearInterval(checkInterval);
+        if (attempts >= maxAttempts) {
+          // Script didn't load, but we'll still show the link
+          setIsScriptLoaded(true);
+        }
+      }
+    }, 100);
+
+    return () => clearInterval(checkInterval);
   }, []);
 
   return (
     <div className="min-h-screen bg-[var(--color-off-white)]">
+      {/* Load Iubenda script if not already loaded */}
+      {!isScriptLoaded && (
+        <Script
+          id="iubenda-cookie-script"
+          src="https://cdn.iubenda.com/iubenda.js"
+          strategy="lazyOnload"
+          onLoad={() => setIsScriptLoaded(true)}
+        />
+      )}
+
       {/* Header */}
       <header className="bg-white shadow-sm">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -61,13 +100,27 @@ export default function CookiePage() {
           </h1>
           
           <div className="prose prose-lg max-w-none">
-            <a 
-              href="https://www.iubenda.com/privacy-policy/43054480/cookie-policy" 
-              className="iubenda-nostyle iubenda-noiframe iubenda-embed iubenda-noiframe" 
-              title="Cookie Policy"
-            >
-              Cookie Policy
-            </a>
+            {isScriptLoaded ? (
+              <a 
+                href="https://www.iubenda.com/privacy-policy/43054480/cookie-policy" 
+                className="iubenda-nostyle iubenda-noiframe iubenda-embed iubenda-noiframe" 
+                title="Cookie Policy"
+              >
+                Cookie Policy
+              </a>
+            ) : (
+              <div className="text-center py-8">
+                <p className="text-[var(--color-medium-gray)] mb-4">Caricamento Cookie Policy...</p>
+                <a 
+                  href="https://www.iubenda.com/privacy-policy/43054480/cookie-policy" 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[var(--color-accent)] hover:underline"
+                >
+                  Visualizza Cookie Policy su iubenda.com
+                </a>
+              </div>
+            )}
           </div>
 
           <div className="mt-12 pt-8 border-t border-gray-200">

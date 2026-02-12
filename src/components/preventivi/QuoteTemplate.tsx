@@ -298,8 +298,10 @@ export default function QuoteTemplate({ quote, showPreview = false }: QuoteTempl
             />
           </div>
           <div className="text-xs text-black space-y-1" style={{ fontSize: '11px', lineHeight: '1.4' }}>
+            <p style={{ marginBottom: '2px', fontWeight: 'bold' }}>Lem Solutions S.N.C. di Morano Lino Carmine & Ferrario Massimiliano</p>
             <p style={{ marginBottom: '2px' }}>Via Gondar 6, 20900 Monza (MB)</p>
-            <p style={{ marginBottom: '2px', wordBreak: 'break-word' }}>P.IVA: 12345678901 | info@lemsolutions.it | www.lemsolutions.it</p>
+            <p style={{ marginBottom: '2px', wordBreak: 'break-word' }}>P.IVA: IT02961500135 | C.U.: M5UXCR1</p>
+            <p style={{ marginBottom: '2px', wordBreak: 'break-word' }}>info@lemsolutions.it | www.lemsolutions.it</p>
             {quote.validity_days > 0 && (
               <p style={{ marginTop: '4px' }}>
                 {t.validUntil}: {validUntil}
@@ -481,9 +483,10 @@ export default function QuoteTemplate({ quote, showPreview = false }: QuoteTempl
       {/* Footer - Simple and clean */}
       <div className="mt-6 pt-4 border-t border-gray-300" style={{ marginTop: '24px', paddingTop: '16px', borderTop: '1px solid #cccccc', pageBreakInside: 'avoid' }}>
         <div className="text-center text-xs text-black" style={{ fontSize: '11px', lineHeight: '1.4' }}>
-          <p className="font-bold mb-1" style={{ fontWeight: 'bold', marginBottom: '4px' }}>LEM SOLUTIONS</p>
+          <p className="font-bold mb-1" style={{ fontWeight: 'bold', marginBottom: '4px' }}>Lem Solutions S.N.C. di Morano Lino Carmine & Ferrario Massimiliano</p>
           <p style={{ marginBottom: '2px' }}>Via Gondar 6, 20900 Monza (MB)</p>
-          <p style={{ wordBreak: 'break-word' }}>P.IVA: 12345678901 | info@lemsolutions.it | www.lemsolutions.it</p>
+          <p style={{ marginBottom: '2px', wordBreak: 'break-word' }}>P.IVA: IT02961500135 | C.U.: M5UXCR1</p>
+          <p style={{ wordBreak: 'break-word' }}>info@lemsolutions.it | www.lemsolutions.it</p>
         </div>
       </div>
     </div>

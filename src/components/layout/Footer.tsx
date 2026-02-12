@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import CookieConsent from './CookieConsent';
 
 const footerLinks = {
   prodotti: [
@@ -178,6 +179,9 @@ export default function Footer() {
           </div>
         </div>
       </div>
+
+      {/* Cookie Consent Bar - sempre visibile se non c'è consenso */}
+      <CookieConsent />
     </footer>
   );
 }
