@@ -154,13 +154,44 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        {/* Help Section */}
-        <div className="mt-8 p-6 bg-amber-50 rounded-xl border border-amber-200">
-          <h3 className="font-semibold text-amber-800 mb-2">💡 Suggerimento</h3>
-          <p className="text-sm text-amber-700">
-            I contenuti che modifichi qui verranno visualizzati immediatamente sul sito pubblico.
-            Assicurati di controllare le modifiche prima di salvare.
-          </p>
+        {/* Pop-up Section */}
+        <div className="mt-8 bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">
+            🔔 Gestione Pop-up
+          </h2>
+          <div className="flex items-center justify-between">
+            <p className="text-sm text-gray-600 mb-4">
+              Crea e gestisci i pop-up promozionali che appariranno sul sito. 
+              I pop-up vengono visualizzati automaticamente quando gli utenti visitano il sito.
+            </p>
+            <Link
+              href="/admin/popups"
+              className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-medium whitespace-nowrap"
+            >
+              Gestisci Pop-up
+            </Link>
+          </div>
+        </div>
+
+        {/* Suggerimenti Section */}
+        <div className="mt-8 bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">
+            💡 Suggerimenti
+          </h2>
+          <div className="space-y-3 text-sm text-gray-700">
+            <p>
+              <strong>Pop-up:</strong> I pop-up vengono visualizzati automaticamente quando gli utenti visitano il sito. 
+              Se un utente chiude un pop-up, non lo vedrà di nuovo per 24 ore.
+            </p>
+            <p>
+              <strong>Bottoni CTA:</strong> Quando aggiungi un bottone nel pop-up, usa link interni come <code className="bg-gray-100 px-1 rounded">/contatti</code>, 
+              <code className="bg-gray-100 px-1 rounded">/chi-siamo</code>, o <code className="bg-gray-100 px-1 rounded">/servizi</code> per migliorare l'esperienza utente.
+            </p>
+            <p>
+              I contenuti che modifichi qui verranno visualizzati immediatamente sul sito pubblico. 
+              Assicurati di controllare le modifiche prima di salvare.
+            </p>
+          </div>
         </div>
       </main>
     </div>
@@ -177,7 +208,7 @@ function StatsCard({
   title: string;
   count: number;
   href: string;
-  color: 'blue' | 'emerald' | 'purple' | 'amber' | 'rose';
+  color: 'blue' | 'emerald' | 'purple' | 'amber' | 'rose' | 'indigo';
   loading: boolean;
 }) {
   const colors = {
@@ -186,6 +217,7 @@ function StatsCard({
     purple: 'bg-purple-500',
     amber: 'bg-amber-500',
     rose: 'bg-rose-500',
+    indigo: 'bg-indigo-500',
   };
 
   return (

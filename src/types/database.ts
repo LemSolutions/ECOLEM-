@@ -183,6 +183,28 @@ export interface Database {
         Insert: Omit<Database['public']['Tables']['quotes']['Row'], 'id' | 'created_at' | 'updated_at'>;
         Update: Partial<Database['public']['Tables']['quotes']['Insert']>;
       };
+
+      // ═══════════════════════════════════════════════════════════════════
+      // POPUPS (Pop-up Promozionali)
+      // ═══════════════════════════════════════════════════════════════════
+      popups: {
+        Row: {
+          id: string;
+          title: string;
+          description: string | null;
+          image_url: string | null;
+          type: 'evento' | 'sconto';
+          event_date: string | null;
+          cta_text: string | null;
+          cta_url: string | null;
+          is_active: boolean;
+          display_order: number;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Omit<Database['public']['Tables']['popups']['Row'], 'id' | 'created_at' | 'updated_at'>;
+        Update: Partial<Database['public']['Tables']['popups']['Insert']>;
+      };
     };
     
     Views: Record<string, never>;
@@ -228,6 +250,10 @@ export type QuotePackageUpdate = Database['public']['Tables']['quote_packages'][
 export type Quote = Database['public']['Tables']['quotes']['Row'];
 export type QuoteInsert = Database['public']['Tables']['quotes']['Insert'];
 export type QuoteUpdate = Database['public']['Tables']['quotes']['Update'];
+
+export type Popup = Database['public']['Tables']['popups']['Row'];
+export type PopupInsert = Database['public']['Tables']['popups']['Insert'];
+export type PopupUpdate = Database['public']['Tables']['popups']['Update'];
 
 // ═══════════════════════════════════════════════════════════════════════════
 // QUOTE HELPER TYPES

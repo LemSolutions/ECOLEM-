@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from 'next';
 import { Playfair_Display, DM_Sans } from 'next/font/google';
 import Script from 'next/script';
 import '@/styles/design-system.css';
+import PopupManager from '@/components/PopupManager';
+import GoogleAnalyticsTracker from '@/components/GoogleAnalyticsTracker';
 
 const playfair = Playfair_Display({ subsets: ['latin'], display: 'swap', variable: '--font-heading', weight: ['400', '500', '600', '700'] });
 const dmSans = DM_Sans({ subsets: ['latin'], display: 'swap', variable: '--font-body', weight: ['300', '400', '500', '600', '700'] });
@@ -102,6 +104,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </Script>
       </head>
       <body className="font-body bg-[var(--color-off-white)] text-[var(--color-charcoal)] antialiased">
+        <GoogleAnalyticsTracker />
+        <PopupManager />
         <a href="#hero" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-[var(--color-accent)] focus:text-[var(--color-primary)] focus:rounded-lg focus:font-medium">Vai al contenuto principale</a>
         {children}
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ '@context': 'https://schema.org', '@type': 'Organization', name: 'LEM Solutions S.N.C.', legalName: 'Lem Solutions S.N.C. di Morano Lino Carmine & Ferrario Massimiliano', url: 'https://lemsolutions.it', logo: 'https://lemsolutions.it/images/CERAMIC%20PRINTING.png', description: 'Sistema completo per la fotoceramica professionale. Stampanti Canon modificate, toner ceramici, carte speciali e know-how produttivo.', vatID: 'IT02961500135', address: { '@type': 'PostalAddress', streetAddress: 'Via Gondar 6', addressLocality: 'Monza', addressRegion: 'MB', postalCode: '20900', addressCountry: 'IT' }, contactPoint: { '@type': 'ContactPoint', telephone: '+39-347-480-6300', email: 'info@lemsolutions.it', contactType: 'customer service', availableLanguage: ['Italian', 'English'] } }) }} />

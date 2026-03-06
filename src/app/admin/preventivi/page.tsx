@@ -741,6 +741,82 @@ function CreaPreventivo({ editQuoteId, onEditComplete }: { editQuoteId?: string 
     }
   }, [editQuoteId]);
 
+  // Reset finalizzazione quando vengono modificati i campi del preventivo
+  const prevValuesRef = useRef({
+    customerName: '',
+    customerEmail: '',
+    customerPhone: '',
+    customerAddress: '',
+    itemsCount: 0,
+    itemsHash: '',
+    notes: '',
+    paymentMethod: '',
+    paymentDetails: '',
+    discount: 0,
+    validityDays: 30,
+    language: 'it' as SupportedLanguage,
+  });
+
+  useEffect(() => {
+    // Calcola hash degli items per rilevare modifiche
+    const itemsHash = items.map(i => `${i.product_id || ''}-${i.quantity}-${i.unit_price}`).join('|');
+    
+    const currentValues = {
+      customerName: customerData.name,
+      customerEmail: customerData.email,
+      customerPhone: customerData.phone,
+      customerAddress: customerData.address,
+      itemsCount: items.length,
+      itemsHash,
+      notes,
+      paymentMethod,
+      paymentDetails,
+      discount,
+      validityDays,
+      language,
+    };
+
+    // Se il preventivo è già finalizzato e vengono modificati i campi, resetta la finalizzazione
+    if (isFinalized) {
+      const hasChanged = 
+        prevValuesRef.current.customerName !== currentValues.customerName ||
+        prevValuesRef.current.customerEmail !== currentValues.customerEmail ||
+        prevValuesRef.current.customerPhone !== currentValues.customerPhone ||
+        prevValuesRef.current.customerAddress !== currentValues.customerAddress ||
+        prevValuesRef.current.itemsCount !== currentValues.itemsCount ||
+        prevValuesRef.current.itemsHash !== currentValues.itemsHash ||
+        prevValuesRef.current.notes !== currentValues.notes ||
+        prevValuesRef.current.paymentMethod !== currentValues.paymentMethod ||
+        prevValuesRef.current.paymentDetails !== currentValues.paymentDetails ||
+        prevValuesRef.current.discount !== currentValues.discount ||
+        prevValuesRef.current.validityDays !== currentValues.validityDays ||
+        prevValuesRef.current.language !== currentValues.language;
+
+      if (hasChanged) {
+        setIsFinalized(false);
+        setFinalizedItems([]);
+        setFinalizedNotes('');
+        setFinalizedPaymentDetails('');
+      }
+    }
+
+    // Aggiorna i valori precedenti
+    prevValuesRef.current = currentValues;
+  }, [
+    customerData.name,
+    customerData.email,
+    customerData.phone,
+    customerData.address,
+    items,
+    notes,
+    paymentMethod,
+    paymentDetails,
+    discount,
+    validityDays,
+    language,
+    isFinalized,
+  ]);
+
   // Carica i dati del preventivo da modificare
   useEffect(() => {
     const loadQuoteForEdit = async () => {
@@ -1408,6 +1484,23 @@ function CreaPreventivo({ editQuoteId, onEditComplete }: { editQuoteId?: string 
       setFinalizedNotes(cleanedNotes);
       setFinalizedPaymentDetails(cleanedPaymentDetails);
       setIsFinalized(true);
+      
+      // Aggiorna prevValuesRef con i valori finalizzati per tracciare le modifiche successive
+      const itemsHash = cleanedItems.map(i => `${i.product_id || ''}-${i.quantity}-${i.unit_price}`).join('|');
+      prevValuesRef.current = {
+        customerName: customerData.name,
+        customerEmail: customerData.email,
+        customerPhone: customerData.phone,
+        customerAddress: customerData.address,
+        itemsCount: cleanedItems.length,
+        itemsHash,
+        notes: cleanedNotes,
+        paymentMethod,
+        paymentDetails: cleanedPaymentDetails,
+        discount,
+        validityDays,
+        language,
+      };
       
       console.log(`[Finalizzazione] Preventivo finalizzato con successo in ${language.toUpperCase()}`);
       alert(`Preventivo finalizzato con successo! Tutti i contenuti sono stati tradotti in ${language.toUpperCase()} e revisionati. Campi vuoti sono stati rimossi. Ora puoi visualizzare l'anteprima ed esportare.`);
