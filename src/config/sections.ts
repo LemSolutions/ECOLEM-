@@ -17,6 +17,7 @@ export interface SectionConfig {
 /** Tutte le sezioni della homepage con i loro anchor ID */
 export const SITE_SECTIONS: SectionConfig[] = [
   { id: 'hero', anchor: '#hero', label: 'Home', description: 'Sezione hero inizio pagina', icon: '🏠' },
+  { id: 'identita-valori', anchor: '#identita-valori', label: 'Identità e Valori', description: 'Know-how e processo di trasformazione', icon: '🎯' },
   { id: 'servizi', anchor: '#servizi', label: 'Servizi', description: 'Il nostro sistema', icon: '⚙️' },
   { id: 'prodotti', anchor: '#prodotti', label: 'Prodotti', description: 'Il nostro catalogo', icon: '📦' },
   { id: 'chi-siamo', anchor: '#chi-siamo', label: 'Chi Siamo', description: 'La nostra storia', icon: '👥' },
