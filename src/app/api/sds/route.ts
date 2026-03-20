@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { isValidSession } from '@/lib/auth';
 import { getSupabaseClient, getSupabaseAdmin } from '@/lib/supabase-client';
-import type { ProductSdsDocumentInsert } from '@/types/database';
+import type { Product, ProductSdsDocument, ProductSdsDocumentInsert } from '@/types/database';
 
 /** GET — Prodotti con schede SDS (pubblico, per pagina /sds) */
 export async function GET(request: NextRequest) {
@@ -43,13 +43,15 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: docsError.message }, { status: 500 });
     }
 
-    const docsByProduct = (docs || []).reduce<Record<string, typeof docs>>((acc, d) => {
+    const docsList = (docs || []) as ProductSdsDocument[];
+    const docsByProduct = docsList.reduce<Record<string, ProductSdsDocument[]>>((acc, d) => {
       if (!acc[d.product_id]) acc[d.product_id] = [];
       acc[d.product_id].push(d);
       return acc;
     }, {});
 
-    const result = (products || []).map((p) => ({
+    const productsList = (products || []) as Pick<Product, 'id' | 'name' | 'category' | 'short_description'>[];
+    const result = productsList.map((p) => ({
       ...p,
       sds_documents: docsByProduct[p.id] || [],
     }));

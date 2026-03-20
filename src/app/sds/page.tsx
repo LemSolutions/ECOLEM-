@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import { Suspense } from 'react';
 import { Navbar, Footer } from '@/components/layout';
 import SDSPageClient from './SDSPageClient';
 
@@ -14,7 +14,9 @@ export default function SDSPage() {
     <>
       <Navbar />
       <main className="min-h-screen bg-[var(--color-off-white)] py-16 lg:py-24">
-        <SDSPageClient />
+        <Suspense fallback={<div className="max-w-4xl mx-auto px-4 py-12 text-center text-gray-500">Caricamento...</div>}>
+          <SDSPageClient />
+        </Suspense>
       </main>
       <Footer />
     </>
