@@ -15,7 +15,7 @@ interface HeroSectionProps {
 }
 
 export default function HeroSection({
-  headline = 'Il Sistema Completo per la Fotoceramica Professionale',
+  headline = 'FOTOCERAMICA PROFESSIONALE',
   subheadline = 'Il tuo partner di fiducia per la fotoceramica di alta qualità. Stampanti Canon modificate, toner ceramici esclusivi, carte speciali e know-how produttivo per risultati impeccabili.',
   ctaPrimaryText = 'Richiedi Informazioni',
   ctaPrimaryHref = '#support',
@@ -34,8 +34,8 @@ export default function HeroSection({
     }
   };
 
-  // YouTube embed URL with background-friendly parameters
-  const youtubeEmbedUrl = `https://www.youtube.com/embed/${youtubeVideoId}?autoplay=1&mute=1&loop=1&playlist=${youtubeVideoId}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1&origin=${typeof window !== 'undefined' ? window.location.origin : ''}`;
+  // YouTube embed URL - nasconde titolo, controlli, branding
+  const youtubeEmbedUrl = `https://www.youtube.com/embed/${youtubeVideoId}?autoplay=1&mute=1&loop=1&playlist=${youtubeVideoId}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&disablekb=1&fs=0&iv_load_policy=3&origin=${typeof window !== 'undefined' ? window.location.origin : ''}`;
 
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -79,12 +79,6 @@ export default function HeroSection({
 
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        {/* Badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 mb-8 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 animate-fade-in">
-          <span className="w-2 h-2 rounded-full bg-[var(--color-accent)] animate-pulse" />
-          <span className="text-white/90 text-sm font-medium tracking-wide">LEM CERAMIC SYSTEM</span>
-        </div>
-
         {/* Headline */}
         <div className="inline-block px-6 py-4 md:px-8 md:py-6 mb-6 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 animate-fade-up delay-100">
           <h1 

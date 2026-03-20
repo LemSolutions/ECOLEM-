@@ -63,7 +63,7 @@ export default function Navbar() {
 
   return (
     <>
-      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out ${isScrolled ? 'bg-white/95 backdrop-blur-md shadow-lg py-2' : 'bg-white/80 backdrop-blur-sm py-3'}`}>
+      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out ${isScrolled ? 'bg-white/95 backdrop-blur-md shadow-lg py-2' : 'bg-transparent py-3'}`}>
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
             {/* Logo */}
@@ -73,7 +73,7 @@ export default function Navbar() {
                 alt="LEM Solutions Logo" 
                 width={350} 
                 height={88} 
-                className="h-16 md:h-20 lg:h-24 w-auto transition-transform group-hover:scale-105"
+                className="h-20 md:h-24 lg:h-28 w-auto transition-transform group-hover:scale-105"
                 priority
               />
             </Link>
@@ -83,20 +83,20 @@ export default function Navbar() {
               <ul className="flex items-center gap-1">
                 {navItems.map((item) => (
                   <li key={item.href}>
-                    <a href={item.href} onClick={(e) => handleNavClick(e, item.href)} className={`relative px-4 py-2 text-sm font-medium tracking-wide transition-all duration-300 ${activeSection === item.href.replace('#', '') ? 'text-gray-900' : 'text-[var(--color-primary)] hover:text-gray-700'}`}>
+                    <a href={item.href} onClick={(e) => handleNavClick(e, item.href)} className={`relative px-4 py-2 text-sm font-medium tracking-wide transition-all duration-300 ${isScrolled ? (activeSection === item.href.replace('#', '') ? 'text-gray-900' : 'text-[var(--color-primary)] hover:text-gray-700') : (activeSection === item.href.replace('#', '') ? 'text-white' : 'text-white/90 hover:text-white')}`}>
                       {item.label}
-                      <span className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-[var(--color-primary)] transition-all duration-300 ${activeSection === item.href.replace('#', '') ? 'w-6' : 'w-0'}`} />
+                      <span className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 transition-all duration-300 ${activeSection === item.href.replace('#', '') ? 'w-6' : 'w-0'} ${isScrolled ? 'bg-[var(--color-primary)]' : 'bg-white'}`} />
                     </a>
                   </li>
                 ))}
               </ul>
               
-              <Button variant="secondary" size="sm" href="#support" onClick={(e) => handleNavClick(e as unknown as React.MouseEvent<HTMLAnchorElement>, '#support')} className="!border-[var(--color-primary)] !text-[var(--color-primary)] hover:!bg-[var(--color-primary)] hover:!text-white">
+              <Button variant="secondary" size="sm" href="#support" onClick={(e) => handleNavClick(e as unknown as React.MouseEvent<HTMLAnchorElement>, '#support')} className={isScrolled ? '!border-[var(--color-primary)] !text-[var(--color-primary)] hover:!bg-[var(--color-primary)] hover:!text-white' : '!border-white !text-white hover:!bg-white hover:!text-[var(--color-primary)]'}>
                 Contattaci
               </Button>
               
               {/* Social Icons */}
-              <div className="flex items-center gap-3 pl-8 ml-4 border-l border-gray-200">
+              <div className={`flex items-center gap-3 pl-8 ml-4 border-l ${isScrolled ? 'border-gray-200' : 'border-white/40'}`}>
                 <a 
                   href="https://www.instagram.com/lem__solutions?igsh=ZnFoMTVqOHZpM2Zq" 
                   target="_blank" 
@@ -135,7 +135,7 @@ export default function Navbar() {
                   className="hover:opacity-80 transition-opacity duration-300"
                   aria-label="TikTok"
                 >
-                  <svg className="w-5 h-5" fill="#000000" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5" fill={isScrolled ? '#000000' : '#FFFFFF'} viewBox="0 0 24 24">
                     <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
                   </svg>
                 </a>
@@ -156,9 +156,9 @@ export default function Navbar() {
             {/* Mobile Menu Button */}
             <button type="button" className="lg:hidden relative z-10 p-2 -mr-2" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} aria-label={isMobileMenuOpen ? 'Chiudi menu' : 'Apri menu'}>
               <div className="w-6 h-5 flex flex-col justify-between">
-                <span className={`block h-0.5 w-full rounded-full transition-all duration-300 ${isMobileMenuOpen ? 'rotate-45 translate-y-2 bg-white' : 'bg-[var(--color-primary)]'}`} />
-                <span className={`block h-0.5 w-full rounded-full transition-all duration-300 ${isMobileMenuOpen ? 'opacity-0 bg-white' : 'bg-[var(--color-primary)]'}`} />
-                <span className={`block h-0.5 w-full rounded-full transition-all duration-300 ${isMobileMenuOpen ? '-rotate-45 -translate-y-2 bg-white' : 'bg-[var(--color-primary)]'}`} />
+                <span className={`block h-0.5 w-full rounded-full transition-all duration-300 ${isMobileMenuOpen ? 'rotate-45 translate-y-2 bg-white' : isScrolled ? 'bg-[var(--color-primary)]' : 'bg-white'}`} />
+                <span className={`block h-0.5 w-full rounded-full transition-all duration-300 ${isMobileMenuOpen ? 'opacity-0 bg-white' : isScrolled ? 'bg-[var(--color-primary)]' : 'bg-white'}`} />
+                <span className={`block h-0.5 w-full rounded-full transition-all duration-300 ${isMobileMenuOpen ? '-rotate-45 -translate-y-2 bg-white' : isScrolled ? 'bg-[var(--color-primary)]' : 'bg-white'}`} />
               </div>
             </button>
           </div>
@@ -175,7 +175,7 @@ export default function Navbar() {
               alt="LEM Solutions Logo" 
               width={280} 
               height={80} 
-              className="h-20 w-auto"
+              className="h-24 w-auto"
             />
           </div>
           

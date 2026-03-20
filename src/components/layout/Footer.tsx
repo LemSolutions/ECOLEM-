@@ -164,9 +164,14 @@ export default function Footer() {
       <div className="border-t border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-[var(--color-medium-gray)] text-sm">
-              © {currentYear} LEM Solutions. Tutti i diritti riservati.
-            </p>
+            <div className="text-center md:text-left">
+              <p className="text-[var(--color-medium-gray)] text-sm">
+                © {currentYear} LEM Solutions. Tutti i diritti riservati.
+              </p>
+              <p className="text-[var(--color-medium-gray)] text-xs mt-1 opacity-75">
+                Video hero: YouTube
+              </p>
+            </div>
             <ul className="flex gap-6">
               {footerLinks.legal.map((link) => (
                 <li key={link.label}>
