@@ -3,3 +3,5 @@ export { default as Card, CardHeader, CardTitle, CardDescription, CardContent, C
 export { default as Section, SectionHeader, TricolorDivider, TricolorAccent } from './Section';
 export { default as Heading, Eyebrow, Text } from './Heading';
 export { default as ImageUpload } from './ImageUpload';
+export { default as SDSLabelSection } from './SDSLabelSection';
+export type { SDSMode, SDSLabelSectionProps } from './SDSLabelSection';

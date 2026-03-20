@@ -54,6 +54,25 @@ export interface Database {
       };
 
       // ═══════════════════════════════════════════════════════════════════
+      // PRODUCT SDS DOCUMENTS (Schede di sicurezza)
+      // ═══════════════════════════════════════════════════════════════════
+      product_sds_documents: {
+        Row: {
+          id: string;
+          product_id: string;
+          document_type: 'sds' | 'certificate_of_origin';
+          label: string;
+          file_url: string;
+          file_name: string | null;
+          display_order: number;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Omit<Database['public']['Tables']['product_sds_documents']['Row'], 'id' | 'created_at' | 'updated_at'>;
+        Update: Partial<Database['public']['Tables']['product_sds_documents']['Insert']>;
+      };
+
+      // ═══════════════════════════════════════════════════════════════════
       // BLOG POSTS
       // ═══════════════════════════════════════════════════════════════════
       blog_posts: {
@@ -254,6 +273,10 @@ export type QuoteUpdate = Database['public']['Tables']['quotes']['Update'];
 export type Popup = Database['public']['Tables']['popups']['Row'];
 export type PopupInsert = Database['public']['Tables']['popups']['Insert'];
 export type PopupUpdate = Database['public']['Tables']['popups']['Update'];
+
+export type ProductSdsDocument = Database['public']['Tables']['product_sds_documents']['Row'];
+export type ProductSdsDocumentInsert = Database['public']['Tables']['product_sds_documents']['Insert'];
+export type ProductSdsDocumentUpdate = Database['public']['Tables']['product_sds_documents']['Update'];
 
 // ═══════════════════════════════════════════════════════════════════════════
 // QUOTE HELPER TYPES

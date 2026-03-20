@@ -151,6 +151,13 @@ export default function AdminDashboard() {
               <span className="text-2xl">📋</span>
               <span className="font-medium text-gray-900">Preventivi</span>
             </Link>
+            <Link
+              href="/admin/documents"
+              className="flex items-center gap-3 p-4 bg-slate-50 rounded-lg hover:bg-slate-100 transition"
+            >
+              <span className="text-2xl">📁</span>
+              <span className="font-medium text-gray-900">Archivio Documenti</span>
+            </Link>
           </div>
         </div>
 

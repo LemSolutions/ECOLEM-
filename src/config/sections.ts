@@ -36,15 +36,22 @@ export const SITE_SECTIONS_WITH_PREVENTIVO: SectionConfig[] = [
   { id: 'preventivo', anchor: '#support', label: 'Preventivo', description: 'Richiedi un preventivo', icon: '📋' },
 ];
 
-/** Base URL produzione — usata per campagne, link, documentazione */
-export const SITE_BASE_URL = 'https://lemsolutions.it';
+/** Base URL — da env o fallback. Usata per campagne, link, documentazione. */
+export const SITE_BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://lemsolutions.it';
+
+/** Path SDS — sempre /sds, funziona su qualsiasi dominio */
+export const SDS_PATH = '/sds';
 
 /**
  * Genera l'URL completo per una sezione (per campagne email, ads, ecc.)
- * Usa sempre lemsolutions.it — non localhost.
  * Es: getSectionUrl('support') → 'https://lemsolutions.it/#support'
  */
 export function getSectionUrl(anchorId: string, baseUrl = SITE_BASE_URL): string {
   const anchor = anchorId.startsWith('#') ? anchorId : `#${anchorId}`;
   return `${baseUrl.replace(/\/$/, '')}${anchor}`;
+}
+
+/** URL SDS — usa base da env, funziona ovunque */
+export function getSdsUrl(): string {
+  return `${SITE_BASE_URL.replace(/\/$/, '')}${SDS_PATH}`;
 }

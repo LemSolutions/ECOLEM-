@@ -73,7 +73,7 @@ export default function Navbar() {
                 alt="LEM Solutions Logo" 
                 width={350} 
                 height={88} 
-                className="h-14 md:h-18 lg:h-20 w-auto transition-transform group-hover:scale-105"
+                className="h-16 md:h-20 lg:h-24 w-auto transition-transform group-hover:scale-105"
                 priority
               />
             </Link>
@@ -83,15 +83,15 @@ export default function Navbar() {
               <ul className="flex items-center gap-1">
                 {navItems.map((item) => (
                   <li key={item.href}>
-                    <a href={item.href} onClick={(e) => handleNavClick(e, item.href)} className={`relative px-4 py-2 text-sm font-medium tracking-wide transition-all duration-300 ${activeSection === item.href.replace('#', '') ? 'text-[var(--color-accent)]' : 'text-[var(--color-primary)] hover:text-[var(--color-accent)]'}`}>
+                    <a href={item.href} onClick={(e) => handleNavClick(e, item.href)} className={`relative px-4 py-2 text-sm font-medium tracking-wide transition-all duration-300 ${activeSection === item.href.replace('#', '') ? 'text-gray-900' : 'text-[var(--color-primary)] hover:text-gray-700'}`}>
                       {item.label}
-                      <span className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-[var(--color-accent)] transition-all duration-300 ${activeSection === item.href.replace('#', '') ? 'w-6' : 'w-0'}`} />
+                      <span className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-[var(--color-primary)] transition-all duration-300 ${activeSection === item.href.replace('#', '') ? 'w-6' : 'w-0'}`} />
                     </a>
                   </li>
                 ))}
               </ul>
               
-              <Button variant="primary" size="sm" href="#support" onClick={(e) => handleNavClick(e as unknown as React.MouseEvent<HTMLAnchorElement>, '#support')}>
+              <Button variant="secondary" size="sm" href="#support" onClick={(e) => handleNavClick(e as unknown as React.MouseEvent<HTMLAnchorElement>, '#support')} className="!border-[var(--color-primary)] !text-[var(--color-primary)] hover:!bg-[var(--color-primary)] hover:!text-white">
                 Contattaci
               </Button>
               
@@ -175,14 +175,14 @@ export default function Navbar() {
               alt="LEM Solutions Logo" 
               width={280} 
               height={80} 
-              className="h-16 w-auto"
+              className="h-20 w-auto"
             />
           </div>
           
           <ul className="flex flex-col items-center gap-6 mb-8">
             {navItems.map((item, index) => (
               <li key={item.href} className={`transform transition-all duration-500 ${isMobileMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`} style={{ transitionDelay: `${index * 75}ms` }}>
-                <a href={item.href} onClick={(e) => handleNavClick(e, item.href)} className={`text-3xl font-heading font-medium transition-colors duration-300 ${activeSection === item.href.replace('#', '') ? 'text-[var(--color-accent)]' : 'text-white hover:text-[var(--color-accent)]'}`}>
+                <a href={item.href} onClick={(e) => handleNavClick(e, item.href)} className={`text-3xl font-heading font-medium transition-colors duration-300 ${activeSection === item.href.replace('#', '') ? 'text-white font-semibold' : 'text-white/90 hover:text-white'}`}>
                   {item.label}
                 </a>
               </li>
@@ -247,7 +247,7 @@ export default function Navbar() {
           </div>
           
           <div className={`transform transition-all duration-500 ${isMobileMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`} style={{ transitionDelay: '400ms' }}>
-            <Button variant="primary" size="lg" href="#support" onClick={(e) => handleNavClick(e as unknown as React.MouseEvent<HTMLAnchorElement>, '#support')}>
+            <Button variant="ghost" size="lg" href="#support" onClick={(e) => handleNavClick(e as unknown as React.MouseEvent<HTMLAnchorElement>, '#support')}>
               Richiedi Informazioni
             </Button>
           </div>

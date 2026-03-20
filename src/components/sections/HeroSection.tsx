@@ -21,7 +21,7 @@ export default function HeroSection({
   ctaPrimaryHref = '#support',
   ctaSecondaryText = 'Scopri il Sistema',
   ctaSecondaryHref = '#servizi',
-  youtubeVideoId = 'tAuJQd7cm0w',
+  youtubeVideoId = '8GkcJre6ti0',
   fallbackImage = '/images/hero-fallback.jpg',
 }: HeroSectionProps) {
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
@@ -88,24 +88,16 @@ export default function HeroSection({
         {/* Headline */}
         <div className="inline-block px-6 py-4 md:px-8 md:py-6 mb-6 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 animate-fade-up delay-100">
           <h1 
-            className="font-heading font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white leading-tight" 
+            className="font-heading font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white leading-tight uppercase" 
             style={{ textShadow: '0 2px 20px rgba(0,0,0,0.3)' }}
           >
-            {headline.split(' ').map((word, index) => (
-              <span key={index}>
-                {index === headline.split(' ').length - 1 ? (
-                  <span className="text-[var(--color-accent)]">{word}</span>
-                ) : (
-                  `${word} `
-                )}
-              </span>
-            ))}
+            {headline}
           </h1>
         </div>
 
         {/* Subheadline */}
         <div className="inline-block px-6 py-4 md:px-8 md:py-6 mb-10 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 animate-fade-up delay-200">
-          <p className="max-w-2xl mx-auto text-lg sm:text-xl lg:text-2xl text-white/90 leading-relaxed">
+          <p className="max-w-2xl mx-auto text-lg sm:text-xl lg:text-2xl text-white/90 leading-relaxed uppercase">
             {subheadline}
           </p>
         </div>
@@ -113,7 +105,7 @@ export default function HeroSection({
         {/* CTAs */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 animate-fade-up delay-300">
           <Button 
-            variant="primary" 
+            variant="ghost" 
             size="lg" 
             href={ctaPrimaryHref} 
             onClick={(e) => handleScrollTo(e as unknown as React.MouseEvent<HTMLAnchorElement>, ctaPrimaryHref)}
