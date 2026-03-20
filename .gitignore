@@ -26,6 +26,9 @@ yarn-error.log*
 .env*.local
 .env
 
+# Script locale con token (non committare)
+git-push.sh
+
 # Vercel
 .vercel
 
